@@ -29,6 +29,6 @@ struct UserRepository: UserRepositoryProtocol {
     }
     
     func isDeleted(id: String) -> Bool {
-        true
+        false
     }
 }

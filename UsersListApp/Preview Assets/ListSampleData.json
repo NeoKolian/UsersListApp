@@ -1,0 +1,234 @@
+{
+    "results": [
+        {
+            "gender": "female",
+            "name": { "title": "ms", "first": "yuki", "last": "tanaka" },
+            "location": {
+                "street": { "number": 301, "name": "meiji-dori" },
+                "city": "tokyo",
+                "state": "tokyo",
+                "postcode": "150-0001"
+            },
+            "email": "yuki.tanaka@example.com",
+            "login": { "username": "whitedragon118" },
+            "dob": { "date": "1994-05-17T08:12:00.000Z" },
+            "registered": { "date": "2016-11-03T10:25:00.000Z" },
+            "phone": "03-1234-5678",
+            "cell": "090-1234-5678",
+            "id": { "name": "MN", "value": null },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/women/10.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/10.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/10.jpg"
+            },
+            "nat": "JP"
+        },
+        {
+            "gender": "male",
+            "name": { "title": "mr", "first": "liam", "last": "o'brien" },
+            "location": {
+                "street": { "number": 42, "name": "spadina avenue" },
+                "city": "toronto",
+                "state": "ontario",
+                "postcode": "M5V 2H1"
+            },
+            "email": "liam.obrien@example.com",
+            "login": { "username": "crazybear507" },
+            "dob": { "date": "1987-10-09T15:30:00.000Z" },
+            "registered": { "date": "2011-05-20T08:00:00.000Z" },
+            "phone": "416-555-0199",
+            "cell": "647-555-0134",
+            "id": { "name": "SIN", "value": "123-456-789" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/14.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/14.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/14.jpg"
+            },
+            "nat": "CA"
+        },
+        {
+            "gender": "female",
+            "name": { "title": "mrs", "first": "elena", "last": "rossi" },
+            "location": {
+                "street": { "number": 78, "name": "via del corso" },
+                "city": "rome",
+                "state": "lazio",
+                "postcode": "00186"
+            },
+            "email": "elena.rossi@example.com",
+            "login": { "username": "goldenlion842" },
+            "dob": { "date": "1983-02-14T20:45:00.000Z" },
+            "registered": { "date": "2009-07-11T14:30:00.000Z" },
+            "phone": "06 12345678",
+            "cell": "345-678-9012",
+            "id": { "name": "CF", "value": "RSSLNE83B54H501Z" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/women/65.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/65.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/65.jpg"
+            },
+            "nat": "IT"
+        },
+        {
+            "gender": "male",
+            "name": { "title": "mr", "first": "noah", "last": "van dijk" },
+            "location": {
+                "street": { "number": 155, "name": "keizersgracht" },
+                "city": "amsterdam",
+                "state": "noord-holland",
+                "postcode": "1015 CJ"
+            },
+            "email": "noah.vandijk@example.com",
+            "login": { "username": "bigtiger930" },
+            "dob": { "date": "1996-12-01T11:00:00.000Z" },
+            "registered": { "date": "2019-04-08T17:20:00.000Z" },
+            "phone": "020-1234567",
+            "cell": "06-12345678",
+            "id": { "name": "BSN", "value": "123456782" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/41.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/41.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/41.jpg"
+            },
+            "nat": "NL"
+        },
+        {
+            "gender": "female",
+            "name": { "title": "ms", "first": "maja", "last": "nielsen" },
+            "location": {
+                "street": { "number": 9, "name": "strøget" },
+                "city": "copenhagen",
+                "state": "hovedstaden",
+                "postcode": "1050"
+            },
+            "email": "maja.nielsen@example.com",
+            "login": { "username": "lazyfish776" },
+            "dob": { "date": "1992-08-22T05:10:00.000Z" },
+            "registered": { "date": "2013-12-15T22:00:00.000Z" },
+            "phone": "33 12 34 56",
+            "cell": "20-12-34-56",
+            "id": { "name": "CPR", "value": "220892-1234" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/women/83.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/83.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/83.jpg"
+            },
+            "nat": "DK"
+        },
+        {
+            "gender": "male",
+            "name": { "title": "mr", "first": "ethan", "last": "walker" },
+            "location": {
+                "street": { "number": 1580, "name": "broadway" },
+                "city": "new york",
+                "state": "new york",
+                "postcode": "10036"
+            },
+            "email": "ethan.walker@example.com",
+            "login": { "username": "angrywolf112" },
+            "dob": { "date": "1980-04-03T13:50:00.000Z" },
+            "registered": { "date": "2006-09-28T06:15:00.000Z" },
+            "phone": "212-555-0147",
+            "cell": "917-555-0183",
+            "id": { "name": "SSN", "value": "123-45-6789" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/75.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/75.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+            },
+            "nat": "US"
+        },
+        {
+            "gender": "female",
+            "name": { "title": "ms", "first": "ines", "last": "morel" },
+            "location": {
+                "street": { "number": 22, "name": "rue du faubourg saint-honoré" },
+                "city": "lyon",
+                "state": "rhône",
+                "postcode": "69001"
+            },
+            "email": "ines.morel@example.com",
+            "login": { "username": "bluecat403" },
+            "dob": { "date": "1999-01-30T19:25:00.000Z" },
+            "registered": { "date": "2020-08-12T09:40:00.000Z" },
+            "phone": "04 56 78 90 12",
+            "cell": "07-89-01-23-45",
+            "id": { "name": "INSEE", "value": "2990169000456" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/women/25.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/25.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/25.jpg"
+            },
+            "nat": "FR"
+        },
+        {
+            "gender": "male",
+            "name": { "title": "mr", "first": "mateo", "last": "hernandez" },
+            "location": {
+                "street": { "number": 610, "name": "calle de alcalá" },
+                "city": "barcelona",
+                "state": "cataluña",
+                "postcode": "08001"
+            },
+            "email": "mateo.hernandez@example.com",
+            "login": { "username": "smallpanda654" },
+            "dob": { "date": "1989-07-14T02:35:00.000Z" },
+            "registered": { "date": "2014-01-22T11:50:00.000Z" },
+            "phone": "933 456 789",
+            "cell": "623-456-789",
+            "id": { "name": "DNI", "value": "98765432A" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/9.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/9.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/9.jpg"
+            },
+            "nat": "ES"
+        },
+        {
+            "gender": "female",
+            "name": { "title": "mrs", "first": "freya", "last": "andersen" },
+            "location": {
+                "street": { "number": 47, "name": "karl johans gate" },
+                "city": "oslo",
+                "state": "oslo",
+                "postcode": "0154"
+            },
+            "email": "freya.andersen@example.com",
+            "login": { "username": "happybird221" },
+            "dob": { "date": "1986-11-28T17:00:00.000Z" },
+            "registered": { "date": "2010-10-05T20:30:00.000Z" },
+            "phone": "22 12 34 56",
+            "cell": "412 34 567",
+            "id": { "name": "FN", "value": "28118612345" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/women/47.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/47.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/47.jpg"
+            },
+            "nat": "NO"
+        },
+        {
+            "gender": "male",
+            "name": { "title": "mr", "first": "tom", "last": "schmidt" },
+            "location": {
+                "street": { "number": 88, "name": "bahnhofstrasse" },
+                "city": "zurich",
+                "state": "zürich",
+                "postcode": "8001"
+            },
+            "email": "tom.schmidt@example.com",
+            "login": { "username": "redturtle590" },
+            "dob": { "date": "1977-03-05T23:15:00.000Z" },
+            "registered": { "date": "2004-06-18T07:45:00.000Z" },
+            "phone": "044 123 45 67",
+            "cell": "078 123 45 67",
+            "id": { "name": "AVS", "value": "756.1234.5678.90" },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/60.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/60.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/60.jpg"
+            },
+            "nat": "CH"
+        }
+    ]
+}

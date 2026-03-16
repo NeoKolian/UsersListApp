@@ -1,0 +1,48 @@
+{
+    "results": [
+        {
+            "gender": "male",
+            "name": {
+                "title": "mr",
+                "first": "lee",
+                "last": "fuller"
+            },
+            "location": {
+                "street": {
+                    "number": 2450,
+                    "name": "victoria road"
+                },
+                "city": "dundee",
+                "state": "derbyshire",
+                "postcode": "W7 7ES"
+            },
+            "email": "lee.fuller@example.com",
+            "login": {
+                "username": "ticklishgorilla350",
+                "password": "memorex",
+                "salt": "yZqPeuEP",
+                "md5": "e8b9f7f3e44cd89cb237336ba7831df1",
+                "sha1": "3c8e5f933eb033ec5493b9e347e9071760da8cc7",
+                "sha256": "afa9c23c2ef814ce839762a1148e05c8cfcee463140f4759ac55545fe717fd6a"
+            },
+            "dob": {
+                "date": "1993-12-02T22:36:31.000Z"
+            },
+            "registered": {
+                "date": "2003-01-14T03:11:16.000Z"
+            },
+            "phone": "0161 818 9583",
+            "cell": "0783-416-873",
+            "id": {
+                "name": "NINO",
+                "value": "ZL 04 28 54 L"
+            },
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/63.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/63.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/63.jpg"
+            },
+            "nat": "GB"
+        }
+    ]
+}
