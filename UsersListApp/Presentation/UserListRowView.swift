@@ -18,7 +18,7 @@ struct UserListRowView: View {
                     .scaledToFill()
             } placeholder: {
                 Circle()
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(.quaternary)
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
@@ -30,7 +30,7 @@ struct UserListRowView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Text(user.phone)
-                    .font(.caption2)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
         }

@@ -15,7 +15,7 @@ extension ISO8601DateFormatter {
         return formatter
     }()
     
-    static func date(from string: String, fallback: Date = Date()) -> Date {
+    static func date(from string: String, fallback: Date = .now) -> Date {
         api.date(from: string) ?? fallback
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 extension User {
     static let sample = User(
-        id:             "john.doe@example.com",
+        id:             UUID().uuidString,
         firstName:      "John",
         lastName:       "Doe",
         email:          "john.doe@example.com",
@@ -24,7 +24,7 @@ extension User {
 
     static let sampleList: [User] = (1...10).map { i in
         User(
-            id:             "user\(i)@example.com",
+            id:             UUID().uuidString,
             firstName:      ["John", "Maria", "Alex", "Sarah", "Mike"][i % 5],
             lastName:       ["Smith", "Garcia", "Johnson", "Brown", "Davis"][i % 5],
             email:          "user\(i)@example.com",

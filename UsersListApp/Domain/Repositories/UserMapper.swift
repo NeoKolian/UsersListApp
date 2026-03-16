@@ -11,11 +11,10 @@ struct UserMapper {
     static func map(_ dto: UserDTO) -> User? {
         guard let pictureURL = URL(string: dto.picture.large) else { return nil }
 
-        let formatter = ISO8601DateFormatter()
-        let date = formatter.date(from: dto.registered.date) ?? Date()
+        let date = ISO8601DateFormatter.date(from: dto.registered.date)
         
         return User(
-            id:             dto.email,
+            id:             UUID().uuidString,
             firstName:      dto.name.first,
             lastName:       dto.name.last,
             email:          dto.email,
