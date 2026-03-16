@@ -12,35 +12,13 @@ struct UserListView: View {
 
     var body: some View {
         NavigationStack {
-            content
-                .navigationTitle("Random Users")
-                .task { await viewModel.loadInitialUsers() }
-        }
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        if viewModel.isLoading && viewModel.users.isEmpty {
-            ProgressView("Loading...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            userList
-        }
-    }
-
-    private var userList: some View {
-        List(viewModel.users) { user in
-            UserListRowView(user: user)
-        }
-        .listStyle(.plain)
-        .overlay {
-            if let error = viewModel.errorMessage {
-                ContentUnavailableView(
-                    "Something went wrong",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(error)
-                )
-            }
+            UserListContentView(
+                isLoading: viewModel.isLoading,
+                users: viewModel.users,
+                errorMessage: viewModel.errorMessage
+            )
+            .navigationTitle("Random Users")
+            .task { await viewModel.loadInitialUsers() }
         }
     }
 }
