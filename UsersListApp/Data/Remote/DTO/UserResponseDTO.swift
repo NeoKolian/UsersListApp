@@ -14,13 +14,14 @@ struct UserResponseDTO: Decodable {
 
 struct UserDTO: Decodable {
     let name: NameDTO
-    let dateOfBirth: DobDTO
+    let dob: DobDTO
     let gender: String
     let email: String
     let phone: String
     let location: LocationDTO
     let picture: PictureDTO
     let registered: RegisteredDTO
+    let id: IdDTO
     
     struct NameDTO: Decodable {
         let first: String
@@ -48,5 +49,10 @@ struct UserDTO: Decodable {
     
     struct RegisteredDTO: Decodable {
         let date: String
+    }
+    
+    struct IdDTO: Decodable {
+        let name: String
+        let value: String?
     }
 }
