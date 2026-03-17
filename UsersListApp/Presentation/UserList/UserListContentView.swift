@@ -26,25 +26,29 @@ struct UserListContentView: View {
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .loaded:
-            List {
-                ForEach(filteredUsers) { user in
-                    NavigationLink(value: user) {
-                        UserListRowView(user: user)
+            if filteredUsers.isEmpty {
+                ContentUnavailableView.search
+            } else {
+                List {
+                    ForEach(filteredUsers) { user in
+                        NavigationLink(value: user) {
+                            UserListRowView(user: user)
+                        }
+                        .onAppear { onUserAppear(user) }
                     }
-                    .onAppear { onUserAppear(user) }
-                }
-                .onDelete { offsets in
-                    for index in offsets {
-                        onDelete(filteredUsers[index])
+                    .onDelete { offsets in
+                        for index in offsets {
+                            onDelete(filteredUsers[index])
+                        }
+                    }
+                    if isLoadingMore {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .listRowSeparator(.hidden)
                     }
                 }
-                if isLoadingMore {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .listRowSeparator(.hidden)
-                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
         case .error(let message):
             ContentUnavailableView(
                 "Something went wrong",

@@ -10,10 +10,10 @@ import CoreData
 
 @main
 struct UsersListApp: App {
+    @State private var repository = DefaultUserRepository()
+
     var body: some Scene {
         WindowGroup {
-            let repository = DefaultUserRepository()
-            
             UserListView(
                 viewModel: UserListViewModel(
                     fetchUseCase: FetchUsersUseCase(repository: repository),

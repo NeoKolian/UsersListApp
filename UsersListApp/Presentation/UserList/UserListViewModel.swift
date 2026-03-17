@@ -15,7 +15,7 @@ final class UserListViewModel {
     enum ViewState {
         case empty
         case loading
-        case loaded([User])
+        case loaded
         case error(String)
     }
 
@@ -51,7 +51,7 @@ final class UserListViewModel {
         do {
             let users = try await fetch.execute(page: currentPage)
             allUsers = users
-            state = users.isEmpty ? .empty : .loaded(users)
+            state = users.isEmpty ? .empty : .loaded
         } catch {
             state = .error(error.localizedDescription)
         }
@@ -69,7 +69,7 @@ final class UserListViewModel {
         do {
             let newUsers = try await fetch.execute(page: currentPage)
             allUsers.append(contentsOf: newUsers)
-            state = .loaded(allUsers)
+            state = .loaded
         } catch {
             currentPage -= 1
         }
@@ -78,6 +78,6 @@ final class UserListViewModel {
     func deleteUser(_ user: User) {
         repository.deleteUser(id: user.id)
         allUsers.removeAll { $0.id == user.id }
-        state = allUsers.isEmpty ? .empty : .loaded(allUsers)
+        state = allUsers.isEmpty ? .empty : .loaded
     }
 }
