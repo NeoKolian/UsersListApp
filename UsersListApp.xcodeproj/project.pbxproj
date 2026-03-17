@@ -29,9 +29,22 @@
 		EC5C098E2F68357C00875775 /* UsersListAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UsersListAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EC72EE902F69817000601C43 /* Exceptions for "UsersListApp" folder in "UsersListApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				UsersListAppTestPlan.xctestplan,
+			);
+			target = EC5C09712F68357900875775 /* UsersListApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EC5C09742F68357900875775 /* UsersListApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EC72EE902F69817000601C43 /* Exceptions for "UsersListApp" folder in "UsersListApp" target */,
+			);
 			path = UsersListApp;
 			sourceTree = "<group>";
 		};
