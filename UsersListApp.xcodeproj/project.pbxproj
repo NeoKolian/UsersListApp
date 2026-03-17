@@ -27,6 +27,7 @@
 		EC5C09722F68357900875775 /* UsersListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UsersListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC5C09842F68357C00875775 /* UsersListAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UsersListAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC5C098E2F68357C00875775 /* UsersListAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UsersListAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC72EE8F2F69816900601C43 /* UsersListAppTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UsersListAppTestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,6 +71,7 @@
 		EC5C09692F68357900875775 = {
 			isa = PBXGroup;
 			children = (
+				EC72EE8F2F69816900601C43 /* UsersListAppTestPlan.xctestplan */,
 				EC5C09742F68357900875775 /* UsersListApp */,
 				EC5C09872F68357C00875775 /* UsersListAppTests */,
 				EC5C09732F68357900875775 /* Products */,

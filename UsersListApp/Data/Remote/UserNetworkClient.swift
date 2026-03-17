@@ -7,10 +7,14 @@
 
 import Foundation
 
-final class UserNetworkClient {
+protocol UserNetworkClientProtocol {
+    func fetchUsers(page: Int, count: Int) async throws -> [UserDTO]
+}
+
+final class UserNetworkClient: UserNetworkClientProtocol {
 
     private let session: URLSession
-    private let baseURL = URL(string: "https://randomuser.me")
+    private let baseURL = URL(string: "https://randomuser.me/api/")
     
     init(session: URLSession = .shared) {
         self.session = session
