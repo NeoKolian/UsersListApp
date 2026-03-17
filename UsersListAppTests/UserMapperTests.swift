@@ -10,7 +10,7 @@ import XCTest
 
 final class UserMapperTests: XCTestCase {
 
-    // MARK: - Invalid Picture URL (guard)
+    // MARK: - Invalid Picture URL
 
     func testMapInvalidPictureURL_ReturnsNil() {
         let dto = makeValidDTO(pictureURL: "")
@@ -53,7 +53,7 @@ final class UserMapperTests: XCTestCase {
         }
     }
 
-    // MARK: - Valid DTO (field mapping)
+    // MARK: - Valid DTO mapping
 
     func testMapValidDTO_ReturnsUser() {
         let dto = makeValidDTO()
