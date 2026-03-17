@@ -15,7 +15,7 @@ struct UsersListApp: App {
             UserListView(
                 viewModel: UserListViewModel(
                     fetchUseCase: FetchUsersUseCase(
-                        repository: UserRepository()
+                        repository: DefaultUserRepository()
                     )
                 )
             )

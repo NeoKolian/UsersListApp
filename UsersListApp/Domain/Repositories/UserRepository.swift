@@ -14,21 +14,32 @@ protocol UserRepositoryProtocol {
     func isDeleted(id: String) -> Bool
 }
 
-struct UserRepository: UserRepositoryProtocol {
+final class DefaultUserRepository: UserRepositoryProtocol {
+
+    private let networkClient: UserNetworkClient
+    private var cachedUsers: [User] = []
+    private var deletedIDs: Set<String> = []
+
+    init(networkClient: UserNetworkClient = UserNetworkClient()) {
+        self.networkClient = networkClient
+    }
     
     func fetchUsers(page: Int) async throws -> [User] {
-        []
+        let dtos = try await networkClient.fetchUsers(page: page)
+        let users = dtos.compactMap(UserMapper.map)
+        cachedUsers.append(contentsOf: users)
+        return users
     }
     
     func getSavedUsers() -> [User] {
-        []
+        cachedUsers.filter { !deletedIDs.contains($0.id) }
     }
-    
+
     func deleteUser(id: String) {
-        
+        deletedIDs.insert(id)
     }
     
     func isDeleted(id: String) -> Bool {
-        false
+        deletedIDs.contains(id)
     }
 }

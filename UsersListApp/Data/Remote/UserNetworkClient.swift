@@ -10,7 +10,7 @@ import Foundation
 final class UserNetworkClient {
 
     private let session: URLSession
-    private let baseURL = URL(string: "https://randomuser.me")
+    private let baseURL = URL(string: "https://randomuser.me/api/")
     
     init(session: URLSession = .shared) {
         self.session = session
