@@ -11,29 +11,53 @@ import Observation
 @Observable
 @MainActor
 final class UserListViewModel {
-    var users: [User] = []
-    var isLoading = false
-    var errorMessage: String?
+
+    enum ViewState {
+        case empty
+        case loading
+        case loaded([User])
+        case error(String)
+    }
+
+    private(set) var state: ViewState = .empty
+    private(set) var isLoadingMore = false
 
     private let fetch: FetchUsersUseCase
     private var currentPage = 1
+    private var allUsers: [User] = []
 
     init(fetchUseCase: FetchUsersUseCase) {
         self.fetch = fetchUseCase
     }
 
     func loadInitialUsers() async {
+        state = .loading
         currentPage = 1
-        await fetchUsers(page: currentPage)
+        allUsers = []
+        do {
+            let users = try await fetch.execute(page: currentPage)
+            allUsers = users
+            state = users.isEmpty ? .empty : .loaded(users)
+        } catch {
+            state = .error(error.localizedDescription)
+        }
     }
 
-    private func fetchUsers(page: Int) async {
-        isLoading = true
-        defer { isLoading = false }
+    func loadNextPageIfNeeded(lastDisplayedUser user: User) async {
+        guard case .loaded = state,
+              !isLoadingMore,
+              user.id == allUsers.last?.id else { return }
+
+        isLoadingMore = true
+        defer { isLoadingMore = false }
+
+        currentPage += 1
         do {
-            users = try await fetch.execute(page: page)
+            let newUsers = try await fetch.execute(page: currentPage)
+            allUsers.append(contentsOf: newUsers)
+            state = .loaded(allUsers)
         } catch {
-            errorMessage = error.localizedDescription
+            currentPage -= 1
         }
     }
 }

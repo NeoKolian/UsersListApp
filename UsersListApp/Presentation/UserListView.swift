@@ -13,15 +13,19 @@ struct UserListView: View {
     var body: some View {
         NavigationStack {
             UserListContentView(
-                isLoading: viewModel.isLoading,
-                users: viewModel.users,
-                errorMessage: viewModel.errorMessage
+                state: viewModel.state,
+                isLoadingMore: viewModel.isLoadingMore,
+                onUserAppear: { user in
+                    Task { await viewModel.loadNextPageIfNeeded(lastDisplayedUser: user) }
+                }
             )
             .navigationTitle("Random Users")
             .task { await viewModel.loadInitialUsers() }
         }
     }
 }
+
+// MARK: - Previews
 
 private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func fetchUsers(page: Int) async throws -> [User] { User.sampleList }
@@ -30,30 +34,10 @@ private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func isDeleted(id: String) -> Bool { false }
 }
 
-private final class LoadingPreviewRepository: UserRepositoryProtocol {
-    func fetchUsers(page: Int) async throws -> [User] {
-        try await Task.sleep(for: .seconds(2))
-        return User.sampleList
-    }
-    func getSavedUsers() -> [User] { [] }
-    func deleteUser(id: String) {}
-    func isDeleted(id: String) -> Bool { false }
-}
-
-// MARK: - Previews
-
 #Preview("Loaded") {
     UserListView(
         viewModel: UserListViewModel(
             fetchUseCase: FetchUsersUseCase(repository: LoadedPreviewRepository())
-        )
-    )
-}
-
-#Preview("Loading") {
-    UserListView(
-        viewModel: UserListViewModel(
-            fetchUseCase: FetchUsersUseCase(repository: LoadingPreviewRepository())
         )
     )
 }
