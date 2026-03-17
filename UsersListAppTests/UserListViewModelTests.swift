@@ -48,10 +48,9 @@ final class UserListViewModelTests: XCTestCase {
         XCTAssertEqual(loadedUsers.count, 3)
     }
 
-    func testLoadInitialUsers_ResetsStateOnSecondCall() async {
-        let page1 = User.makeList(count: 5)
-        let page2 = User.makeList(count: 2)
-        let repository = PagedMockRepository(pages: [1: page1, 2: page2])
+    func testLoadInitialUsers_WhenAlreadyLoaded_DoesNotReload() async {
+        let users = User.makeList(count: 5)
+        let repository = PagedMockRepository(pages: [1: users])
         let sut = makeSUT(repository: repository)
 
         await sut.loadInitialUsers()
@@ -62,9 +61,10 @@ final class UserListViewModelTests: XCTestCase {
 
         await sut.loadInitialUsers()
         guard case .loaded(let second) = sut.state else {
-            return XCTFail("Expected .loaded state")
+            return XCTFail("Expected .loaded state after second call")
         }
-        XCTAssertEqual(second.count, 5, "Should reload page 1, not accumulate")
+        XCTAssertEqual(second.count, 5, "Should keep existing data, not reload")
+        XCTAssertEqual(repository.lastRequestedPage, 1, "Should not make a second request")
     }
 
     // MARK: - loadNextPageIfNeeded — Guards

@@ -31,6 +31,7 @@ final class UserListViewModel {
     }
 
     func loadInitialUsers() async {
+        guard case .empty = state else { return }
         state = .loading
         currentPage = 1
         allUsers = []

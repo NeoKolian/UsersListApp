@@ -26,8 +26,10 @@ struct UserListContentView: View {
         case .loaded(let users):
             List {
                 ForEach(users) { user in
-                    UserListRowView(user: user)
-                        .onAppear { onUserAppear(user) }
+                    NavigationLink(value: user) {
+                        UserListRowView(user: user)
+                    }
+                    .onAppear { onUserAppear(user) }
                 }
                 if isLoadingMore {
                     ProgressView()

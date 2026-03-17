@@ -20,6 +20,9 @@ struct UserListView: View {
                 }
             )
             .navigationTitle("Random Users")
+            .navigationDestination(for: User.self) { user in
+                UserDetailView(user: user)
+            }
             .task { await viewModel.loadInitialUsers() }
         }
     }
