@@ -34,16 +34,6 @@ private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func isDeleted(id: String) -> Bool { false }
 }
 
-private final class LoadingPreviewRepository: UserRepositoryProtocol {
-    func fetchUsers(page: Int) async throws -> [User] {
-        try await Task.sleep(for: .seconds(2))
-        return User.sampleList
-    }
-    func getSavedUsers() -> [User] { [] }
-    func deleteUser(id: String) {}
-    func isDeleted(id: String) -> Bool { false }
-}
-
 #Preview("Loaded") {
     UserListView(
         viewModel: UserListViewModel(
