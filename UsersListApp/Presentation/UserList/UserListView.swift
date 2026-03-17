@@ -14,11 +14,16 @@ struct UserListView: View {
         NavigationStack {
             UserListContentView(
                 state: viewModel.state,
+                filteredUsers: viewModel.filteredUsers,
                 isLoadingMore: viewModel.isLoadingMore,
                 onUserAppear: { user in
                     Task { await viewModel.loadNextPageIfNeeded(lastDisplayedUser: user) }
+                },
+                onDelete: { user in
+                    viewModel.deleteUser(user)
                 }
             )
+            .searchable(text: $viewModel.searchText, prompt: "Search by name or email")
             .navigationTitle("Random Users")
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
@@ -38,9 +43,11 @@ private final class LoadedPreviewRepository: UserRepositoryProtocol {
 }
 
 #Preview("Loaded") {
+    let repository = LoadedPreviewRepository()
     UserListView(
         viewModel: UserListViewModel(
-            fetchUseCase: FetchUsersUseCase(repository: LoadedPreviewRepository())
+            fetchUseCase: FetchUsersUseCase(repository: repository),
+            repository: repository
         )
     )
 }

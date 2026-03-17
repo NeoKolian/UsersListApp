@@ -9,8 +9,10 @@ import SwiftUI
 
 struct UserListContentView: View {
     let state: UserListViewModel.ViewState
+    let filteredUsers: [User]
     let isLoadingMore: Bool
     let onUserAppear: (User) -> Void
+    let onDelete: (User) -> Void
 
     var body: some View {
         switch state {
@@ -23,13 +25,18 @@ struct UserListContentView: View {
         case .loading:
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case .loaded(let users):
+        case .loaded:
             List {
-                ForEach(users) { user in
+                ForEach(filteredUsers) { user in
                     NavigationLink(value: user) {
                         UserListRowView(user: user)
                     }
                     .onAppear { onUserAppear(user) }
+                }
+                .onDelete { offsets in
+                    for index in offsets {
+                        onDelete(filteredUsers[index])
+                    }
                 }
                 if isLoadingMore {
                     ProgressView()

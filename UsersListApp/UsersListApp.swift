@@ -12,11 +12,12 @@ import CoreData
 struct UsersListApp: App {
     var body: some Scene {
         WindowGroup {
+            let repository = DefaultUserRepository()
+            
             UserListView(
                 viewModel: UserListViewModel(
-                    fetchUseCase: FetchUsersUseCase(
-                        repository: DefaultUserRepository()
-                    )
+                    fetchUseCase: FetchUsersUseCase(repository: repository),
+                    repository: repository
                 )
             )
         }

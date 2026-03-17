@@ -21,13 +21,26 @@ final class UserListViewModel {
 
     private(set) var state: ViewState = .empty
     private(set) var isLoadingMore = false
+    var searchText = ""
 
     private let fetch: FetchUsersUseCase
+    private let repository: UserRepositoryProtocol
     private var currentPage = 1
     private var allUsers: [User] = []
 
-    init(fetchUseCase: FetchUsersUseCase) {
+    var filteredUsers: [User] {
+        guard case .loaded = state else { return [] }
+        guard !searchText.isEmpty else { return allUsers }
+        return allUsers.filter {
+            $0.firstName.localizedStandardContains(searchText)
+            || $0.lastName.localizedStandardContains(searchText)
+            || $0.email.localizedStandardContains(searchText)
+        }
+    }
+
+    init(fetchUseCase: FetchUsersUseCase, repository: UserRepositoryProtocol) {
         self.fetch = fetchUseCase
+        self.repository = repository
     }
 
     func loadInitialUsers() async {
@@ -47,7 +60,7 @@ final class UserListViewModel {
     func loadNextPageIfNeeded(lastDisplayedUser user: User) async {
         guard case .loaded = state,
               !isLoadingMore,
-              user.id == allUsers.last?.id else { return }
+              user.id == filteredUsers.last?.id else { return }
 
         isLoadingMore = true
         defer { isLoadingMore = false }
@@ -60,5 +73,11 @@ final class UserListViewModel {
         } catch {
             currentPage -= 1
         }
+    }
+
+    func deleteUser(_ user: User) {
+        repository.deleteUser(id: user.id)
+        allUsers.removeAll { $0.id == user.id }
+        state = allUsers.isEmpty ? .empty : .loaded(allUsers)
     }
 }
