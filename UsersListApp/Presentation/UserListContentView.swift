@@ -9,6 +9,8 @@ import SwiftUI
 
 struct UserListContentView: View {
     let state: UserListViewModel.ViewState
+    let isLoadingMore: Bool
+    let onUserAppear: (User) -> Void
 
     var body: some View {
         switch state {
@@ -22,8 +24,16 @@ struct UserListContentView: View {
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .loaded(let users):
-            List(users) { user in
-                UserListRowView(user: user)
+            List {
+                ForEach(users) { user in
+                    UserListRowView(user: user)
+                        .onAppear { onUserAppear(user) }
+                }
+                if isLoadingMore {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .listRowSeparator(.hidden)
+                }
             }
             .listStyle(.plain)
         case .error(let message):

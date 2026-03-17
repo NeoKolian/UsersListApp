@@ -12,9 +12,15 @@ struct UserListView: View {
 
     var body: some View {
         NavigationStack {
-            UserListContentView(state: viewModel.state)
-                .navigationTitle("Random Users")
-                .task { await viewModel.loadInitialUsers() }
+            UserListContentView(
+                state: viewModel.state,
+                isLoadingMore: viewModel.isLoadingMore,
+                onUserAppear: { user in
+                    Task { await viewModel.loadNextPageIfNeeded(lastDisplayedUser: user) }
+                }
+            )
+            .navigationTitle("Random Users")
+            .task { await viewModel.loadInitialUsers() }
         }
     }
 }

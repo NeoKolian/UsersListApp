@@ -19,10 +19,12 @@ final class UserListViewModel {
         case error(String)
     }
 
-    var state: ViewState = .empty
+    private(set) var state: ViewState = .empty
+    private(set) var isLoadingMore = false
 
     private let fetch: FetchUsersUseCase
     private var currentPage = 1
+    private var allUsers: [User] = []
 
     init(fetchUseCase: FetchUsersUseCase) {
         self.fetch = fetchUseCase
@@ -31,15 +33,31 @@ final class UserListViewModel {
     func loadInitialUsers() async {
         state = .loading
         currentPage = 1
-        await fetchUsers(page: currentPage)
-    }
-
-    private func fetchUsers(page: Int) async {
+        allUsers = []
         do {
-            let users = try await fetch.execute(page: page)
-            state = .loaded(users)
+            let users = try await fetch.execute(page: currentPage)
+            allUsers = users
+            state = users.isEmpty ? .empty : .loaded(users)
         } catch {
             state = .error(error.localizedDescription)
+        }
+    }
+
+    func loadNextPageIfNeeded(lastDisplayedUser user: User) async {
+        guard case .loaded = state,
+              !isLoadingMore,
+              user.id == allUsers.last?.id else { return }
+
+        isLoadingMore = true
+        defer { isLoadingMore = false }
+
+        currentPage += 1
+        do {
+            let newUsers = try await fetch.execute(page: currentPage)
+            allUsers.append(contentsOf: newUsers)
+            state = .loaded(allUsers)
+        } catch {
+            currentPage -= 1
         }
     }
 }
