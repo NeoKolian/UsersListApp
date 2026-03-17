@@ -34,30 +34,6 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC5C09832F68357C00875775"
-               BuildableName = "UsersListAppTests.xctest"
-               BlueprintName = "UsersListAppTests"
-               ReferencedContainer = "container:UsersListApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC5C098D2F68357C00875775"
-               BuildableName = "UsersListAppUITests.xctest"
-               BlueprintName = "UsersListAppUITests"
-               ReferencedContainer = "container:UsersListApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
