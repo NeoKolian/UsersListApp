@@ -8,16 +8,30 @@
 import SwiftUI
 
 struct UserListContentView: View {
-    let isLoading: Bool
-    let users: [User]
-    let errorMessage: String?
+    let state: UserListViewModel.ViewState
 
     var body: some View {
-        if isLoading && users.isEmpty {
+        switch state {
+        case .empty:
+            ContentUnavailableView(
+                "No Users",
+                systemImage: "person.slash",
+                description: Text("Pull to refresh or try again later.")
+            )
+        case .loading:
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            UserListBodyView(users: users, errorMessage: errorMessage)
+        case .loaded(let users):
+            List(users) { user in
+                UserListRowView(user: user)
+            }
+            .listStyle(.plain)
+        case .error(let message):
+            ContentUnavailableView(
+                "Something went wrong",
+                systemImage: "exclamationmark.triangle",
+                description: Text(message)
+            )
         }
     }
 }

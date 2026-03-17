@@ -12,16 +12,14 @@ struct UserListView: View {
 
     var body: some View {
         NavigationStack {
-            UserListContentView(
-                isLoading: viewModel.isLoading,
-                users: viewModel.users,
-                errorMessage: viewModel.errorMessage
-            )
-            .navigationTitle("Random Users")
-            .task { await viewModel.loadInitialUsers() }
+            UserListContentView(state: viewModel.state)
+                .navigationTitle("Random Users")
+                .task { await viewModel.loadInitialUsers() }
         }
     }
 }
+
+// MARK: - Previews
 
 private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func fetchUsers(page: Int) async throws -> [User] { User.sampleList }
@@ -40,20 +38,10 @@ private final class LoadingPreviewRepository: UserRepositoryProtocol {
     func isDeleted(id: String) -> Bool { false }
 }
 
-// MARK: - Previews
-
 #Preview("Loaded") {
     UserListView(
         viewModel: UserListViewModel(
             fetchUseCase: FetchUsersUseCase(repository: LoadedPreviewRepository())
-        )
-    )
-}
-
-#Preview("Loading") {
-    UserListView(
-        viewModel: UserListViewModel(
-            fetchUseCase: FetchUsersUseCase(repository: LoadingPreviewRepository())
         )
     )
 }

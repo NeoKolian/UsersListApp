@@ -11,9 +11,15 @@ import Observation
 @Observable
 @MainActor
 final class UserListViewModel {
-    var users: [User] = []
-    var isLoading = false
-    var errorMessage: String?
+
+    enum ViewState {
+        case empty
+        case loading
+        case loaded([User])
+        case error(String)
+    }
+
+    var state: ViewState = .empty
 
     private let fetch: FetchUsersUseCase
     private var currentPage = 1
@@ -23,17 +29,17 @@ final class UserListViewModel {
     }
 
     func loadInitialUsers() async {
+        state = .loading
         currentPage = 1
         await fetchUsers(page: currentPage)
     }
 
     private func fetchUsers(page: Int) async {
-        isLoading = true
-        defer { isLoading = false }
         do {
-            users = try await fetch.execute(page: page)
+            let users = try await fetch.execute(page: page)
+            state = .loaded(users)
         } catch {
-            errorMessage = error.localizedDescription
+            state = .error(error.localizedDescription)
         }
     }
 }
