@@ -17,12 +17,21 @@ protocol UserRepositoryProtocol {
 final class DefaultUserRepository: UserRepositoryProtocol {
 
     private let networkClient: UserNetworkClientProtocol
-    private var cachedUsers: [User] = []
-    private var knownEmails: Set<String> = []
-    private var deletedIDs: Set<String> = []
+    private let storage: UserStorageProtocol
+    private var cachedUsers: [User]
+    private var knownEmails: Set<String>
+    private var deletedIDs: Set<String>
 
-    init(networkClient: UserNetworkClientProtocol = UserNetworkClient()) {
+    init(
+        networkClient: UserNetworkClientProtocol = UserNetworkClient(),
+        storage: UserStorageProtocol = UserDefaultsStorage()
+    ) {
         self.networkClient = networkClient
+        self.storage = storage
+        
+        self.cachedUsers = storage.loadUsers()
+        self.knownEmails = Set(cachedUsers.map(\.email))
+        self.deletedIDs = storage.loadDeletedIDs()
     }
     
     func fetchUsers(page: Int) async throws -> [User] {
@@ -31,6 +40,7 @@ final class DefaultUserRepository: UserRepositoryProtocol {
         
         let newUsers = users.filter { knownEmails.insert($0.email).inserted }
         cachedUsers.append(contentsOf: newUsers)
+        storage.saveUsers(cachedUsers)
         return newUsers
     }
     
@@ -40,6 +50,7 @@ final class DefaultUserRepository: UserRepositoryProtocol {
 
     func deleteUser(id: String) {
         deletedIDs.insert(id)
+        storage.saveDeletedIDs(deletedIDs)
     }
     
     func isDeleted(id: String) -> Bool {

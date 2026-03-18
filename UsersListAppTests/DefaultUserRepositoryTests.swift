@@ -88,6 +88,6 @@ final class DefaultUserRepositoryTests: XCTestCase {
         line: UInt = #line
     ) -> DefaultUserRepository {
         let client = MockUserNetworkClient(result: .success(dtos))
-        return DefaultUserRepository(networkClient: client)
+        return DefaultUserRepository(networkClient: client, storage: MockUserStorage())
     }
 }
