@@ -21,6 +21,7 @@ final class UserListViewModel {
 
     private(set) var state: ViewState = .empty
     private(set) var isLoadingMore = false
+    
     var searchText = ""
 
     private let fetch: FetchUsersUseCase
