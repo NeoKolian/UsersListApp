@@ -35,6 +35,7 @@ final class UserListViewModel {
             $0.firstName.localizedStandardContains(searchText)
             || $0.lastName.localizedStandardContains(searchText)
             || $0.email.localizedStandardContains(searchText)
+            || $0.fullName.localizedStandardContains(searchText)
         }
     }
 
@@ -50,6 +51,14 @@ final class UserListViewModel {
 
     func loadInitialUsers() async {
         guard case .empty = state else { return }
+        await fetchFirstPage()
+    }
+
+    func refreshUsers() async {
+        await fetchFirstPage()
+    }
+
+    private func fetchFirstPage() async {
         state = .loading
         currentPage = 1
         allUsers = []
