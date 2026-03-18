@@ -12,40 +12,53 @@ struct UserDetailView: View {
     let user: User
 
     var body: some View {
-        List {
-            Section {
-                HStack {
-                    Spacer()
-                    AsyncImage(url: user.pictureURL)
-                    .frame(width: 120, height: 120)
-                    .clipShape(.circle)
-                    .scaledToFill()
-                    Spacer()
+        ScrollView {
+            VStack(spacing: 24) {
+                VStack(spacing: 12) {
+                    HStack {
+                        Spacer()
+                        AsyncImage(url: user.pictureURL)
+                        .frame(width: 120, height: 120)
+                        .clipShape(.circle)
+                        .scaledToFill()
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
+                    
+                    Text(user.fullName)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Text(user.email)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
-                .listRowBackground(Color.clear)
-            }
-
-            Section("Personal Info") {
-                Label(user.fullName, systemImage: "person")
-                Label(user.gender.capitalized, systemImage: "figure.stand")
- 
-                Label(user.email, systemImage: "envelope")
-                Label(user.phone, systemImage: "phone")
-            }
-
-            Section("Location") {
-                Label(user.street, systemImage: "mappin.and.ellipse")
-                Label(user.city, systemImage: "building.2")
-                Label(user.state, systemImage: "map")
-                Label {
-                    Text(user.registeredDate, format: .dateTime.day().month().year())
-                } icon: {
-                    Image(systemName: "calendar")
+//                .padding(.top, 16)
+                
+                InfoCard(title: "Personal Info") {
+                    InfoRow(icon: "person", text: user.fullName)
+                    InfoRow(icon: "figure.stand", text: user.gender.capitalized)
+                    InfoRow(icon: "phone", text: user.phone)
+                }
+                
+                InfoCard(title: "Location") {
+                    InfoRow(icon: "mappin.and.ellipse", text: user.street)
+                    InfoRow(icon: "building.2", text: user.city)
+                    InfoRow(icon: "map", text: user.state)
+                }
+                
+                InfoCard(title: "Registration") {
+                    InfoRow(
+                        icon: "calendar",
+                        text: user.registeredDate.formatted(.dateTime.day().month().year())
+                    )
                 }
             }
+            .padding()
         }
-        .navigationTitle(user.fullName)
+        .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.inline)
+        .background(Color(.systemGroupedBackground))
     }
 }
 
