@@ -10,8 +10,8 @@ import Foundation
 protocol UserRepositoryProtocol {
     func fetchUsers(page: Int) async throws -> [User]
     func getSavedUsers() -> [User]
-    func deleteUser(id: String)
-    func isDeleted(id: String) -> Bool
+    func deleteUser(email: String)
+    func isDeleted(email: String) -> Bool
 }
 
 final class DefaultUserRepository: UserRepositoryProtocol {
@@ -20,7 +20,7 @@ final class DefaultUserRepository: UserRepositoryProtocol {
     private let storage: UserStorageProtocol
     private var cachedUsers: [User]
     private var knownEmails: Set<String>
-    private var deletedIDs: Set<String>
+    private var deletedEmails: Set<String>
 
     init(
         networkClient: UserNetworkClientProtocol = UserNetworkClient(),
@@ -31,10 +31,15 @@ final class DefaultUserRepository: UserRepositoryProtocol {
         
         self.cachedUsers = storage.loadUsers()
         self.knownEmails = Set(cachedUsers.map(\.email))
-        self.deletedIDs = storage.loadDeletedIDs()
+        self.deletedEmails = storage.loadDeletedEmails()
     }
     
     func fetchUsers(page: Int) async throws -> [User] {
+        if page == 1 {
+            cachedUsers = []
+            knownEmails = []
+        }
+
         let dtos = try await networkClient.fetchUsers(page: page, count: 20)
         let users = dtos.compactMap(UserMapper.map)
         
@@ -45,15 +50,19 @@ final class DefaultUserRepository: UserRepositoryProtocol {
     }
     
     func getSavedUsers() -> [User] {
-        cachedUsers.filter { !deletedIDs.contains($0.id) }
+        cachedUsers.filter { !deletedEmails.contains($0.email) }
     }
 
-    func deleteUser(id: String) {
-        deletedIDs.insert(id)
-        storage.saveDeletedIDs(deletedIDs)
+    func deleteUser(email: String) {
+        deletedEmails.insert(email)
+        storage.saveDeletedEmails(deletedEmails)
+
+        cachedUsers.removeAll { $0.email == email }
+        knownEmails.remove(email)
+        storage.saveUsers(cachedUsers)
     }
     
-    func isDeleted(id: String) -> Bool {
-        deletedIDs.contains(id)
+    func isDeleted(email: String) -> Bool {
+        deletedEmails.contains(email)
     }
 }

@@ -41,8 +41,8 @@ struct UserListView: View {
 private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func fetchUsers(page: Int) async throws -> [User] { User.sampleList }
     func getSavedUsers() -> [User] { User.sampleList }
-    func deleteUser(id: String) {}
-    func isDeleted(id: String) -> Bool { false }
+    func deleteUser(email: String) {}
+    func isDeleted(email: String) -> Bool { false }
 }
 
 #Preview("Loaded") {

@@ -10,15 +10,15 @@ import Foundation
 protocol UserStorageProtocol {
     func loadUsers() -> [User]
     func saveUsers(_ users: [User])
-    func loadDeletedIDs() -> Set<String>
-    func saveDeletedIDs(_ ids: Set<String>)
+    func loadDeletedEmails() -> Set<String>
+    func saveDeletedEmails(_ emails: Set<String>)
 }
 
 final class UserDefaultsStorage: UserStorageProtocol {
 
     private enum Keys {
         static let cachedUsers = "cachedUsers"
-        static let deletedIDs = "deletedIDs"
+        static let deletedEmails = "deletedEmails"
     }
 
     private let defaults: UserDefaults
@@ -37,12 +37,12 @@ final class UserDefaultsStorage: UserStorageProtocol {
         defaults.set(data, forKey: Keys.cachedUsers)
     }
 
-    func loadDeletedIDs() -> Set<String> {
-        let array = defaults.stringArray(forKey: Keys.deletedIDs) ?? []
+    func loadDeletedEmails() -> Set<String> {
+        let array = defaults.stringArray(forKey: Keys.deletedEmails) ?? []
         return Set(array)
     }
 
-    func saveDeletedIDs(_ ids: Set<String>) {
-        defaults.set(Array(ids), forKey: Keys.deletedIDs)
+    func saveDeletedEmails(_ emails: Set<String>) {
+        defaults.set(Array(emails), forKey: Keys.deletedEmails)
     }
 }

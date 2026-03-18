@@ -81,8 +81,8 @@ final class UserListViewModel {
     }
 
     func deleteUser(_ user: User) {
-        repository.deleteUser(id: user.id)
-        allUsers.removeAll { $0.id == user.id }
+        repository.deleteUser(email: user.email)
+        allUsers.removeAll { $0.email == user.email }
         state = allUsers.isEmpty ? .empty : .loaded
     }
 }

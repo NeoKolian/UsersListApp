@@ -9,7 +9,13 @@ import SwiftUI
 
 @main
 struct UsersListApp: App {
-    @State private var repository = DefaultUserRepository()
+    
+//    @State private var repository = DefaultUserRepository()
+    
+    // in case if API randomUsers dosent work
+    @State private var repository = DefaultUserRepository(
+        networkClient: StubUserNetworkClient()
+    )
 
     var body: some Scene {
         WindowGroup {
