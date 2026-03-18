@@ -21,6 +21,9 @@ struct UserListView: View {
                 },
                 onDelete: { user in
                     viewModel.deleteUser(user)
+                },
+                onRetry: {
+                    Task { await viewModel.retry() }
                 }
             )
             .searchable(text: $viewModel.searchText, prompt: "Search by name or email")

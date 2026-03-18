@@ -43,6 +43,11 @@ final class UserListViewModel {
         self.repository = repository
     }
 
+    func retry() async {
+        state = .empty
+        await loadInitialUsers()
+    }
+
     func loadInitialUsers() async {
         guard case .empty = state else { return }
         state = .loading

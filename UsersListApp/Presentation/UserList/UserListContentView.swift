@@ -13,6 +13,7 @@ struct UserListContentView: View {
     let isLoadingMore: Bool
     let onUserAppear: (User) -> Void
     let onDelete: (User) -> Void
+    let onRetry: () -> Void
 
     var body: some View {
         switch state {
@@ -50,11 +51,14 @@ struct UserListContentView: View {
                 .listStyle(.plain)
             }
         case .error(let message):
-            ContentUnavailableView(
-                "Something went wrong",
-                systemImage: "exclamationmark.triangle",
-                description: Text(message)
-            )
+            ContentUnavailableView {
+                Label("Something went wrong", systemImage: "exclamationmark.triangle")
+            } description: {
+                Text(message)
+            } actions: {
+                Button("Retry", action: onRetry)
+                    .buttonStyle(.borderedProminent)
+            }
         }
     }
 }
