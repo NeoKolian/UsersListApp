@@ -18,11 +18,15 @@ struct UserListContentView: View {
     var body: some View {
         switch state {
         case .empty:
-            ContentUnavailableView(
-                "No Users",
-                systemImage: "person.slash",
-                description: Text("Pull to refresh or try again later.")
-            )
+            ContentUnavailableView {
+                Label("No Users", systemImage: "person.slash")
+            } description: {
+                Text("Tap the button below to update list.")
+            } actions: {
+                Button("Load Users", action: onRetry)
+                    .buttonStyle(.borderedProminent)
+            }
+
         case .loading:
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
