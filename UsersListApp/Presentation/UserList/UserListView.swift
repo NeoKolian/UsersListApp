@@ -31,6 +31,9 @@ struct UserListView: View {
             .navigationDestination(for: User.self) { user in
                 UserDetailView(user: user)
             }
+            .refreshable {
+                await viewModel.refreshUsers()
+            }
             .task { await viewModel.loadInitialUsers() }
         }
     }

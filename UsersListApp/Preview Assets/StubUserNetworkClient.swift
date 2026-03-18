@@ -20,7 +20,7 @@ final class StubUserNetworkClient: UserNetworkClientProtocol {
             users = []
             return
         }
-        print(response.results)
+
         users = response.results
     }
 

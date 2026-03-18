@@ -17,11 +17,10 @@ struct UserListRowView: View {
                     .resizable()
                     .scaledToFill()
             } placeholder: {
-                Circle()
-                    .fill(.quaternary)
+                Image("userPlaceholder")
             }
             .frame(width: 50, height: 50)
-            .clipShape(Circle())
+            .clipShape(.circle)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(user.fullName)

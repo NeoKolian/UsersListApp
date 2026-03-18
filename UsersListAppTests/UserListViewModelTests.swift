@@ -67,6 +67,46 @@ final class UserListViewModelTests: XCTestCase {
         XCTAssertEqual(repository.lastRequestedPage, 1, "Should not make a second request")
     }
 
+    // MARK: - refreshUsers
+
+    func testRefreshUsers_WhenAlreadyLoaded_ReloadsData() async {
+        let page1 = User.makeList(count: 3)
+        let repository = PagedMockRepository(pages: [1: page1])
+        let sut = makeSUT(repository: repository)
+
+        await sut.loadInitialUsers()
+        guard case .loaded = sut.state else {
+            return XCTFail("Expected .loaded state")
+        }
+        XCTAssertEqual(sut.filteredUsers.count, 3)
+
+        await sut.refreshUsers()
+
+        guard case .loaded = sut.state else {
+            return XCTFail("Expected .loaded state after refresh")
+        }
+        XCTAssertEqual(sut.filteredUsers.count, 3)
+        XCTAssertEqual(repository.lastRequestedPage, 1, "Refresh should re-fetch page 1")
+    }
+
+    func testRefreshUsers_WhenFetchFails_SetsErrorState() async {
+        let page1 = User.makeList(count: 2)
+        let repository = PagedMockRepository(pages: [1: page1], errorOnPage: nil)
+        let sut = makeSUT(repository: repository)
+
+        await sut.loadInitialUsers()
+        guard case .loaded = sut.state else {
+            return XCTFail("Expected .loaded state")
+        }
+
+        repository.forceError = true
+        await sut.refreshUsers()
+
+        guard case .error = sut.state else {
+            return XCTFail("Expected .error state after failed refresh, got \(sut.state)")
+        }
+    }
+
     // MARK: - loadNextPageIfNeeded — Guards
 
     func testLoadNextPage_WhenNotLastUser_DoesNotLoad() async {
@@ -275,6 +315,7 @@ private final class PagedMockRepository: UserRepositoryProtocol {
     private let errorOnPage: Int?
     private(set) var lastRequestedPage: Int?
     private(set) var deletedEmails: Set<String> = []
+    var forceError = false
 
     init(pages: [Int: [User]], errorOnPage: Int? = nil) {
         self.pages = pages
@@ -283,7 +324,7 @@ private final class PagedMockRepository: UserRepositoryProtocol {
 
     func fetchUsers(page: Int) async throws -> [User] {
         lastRequestedPage = page
-        if page == errorOnPage {
+        if forceError || page == errorOnPage {
             throw NSError(domain: "test", code: 1)
         }
         return pages[page] ?? []

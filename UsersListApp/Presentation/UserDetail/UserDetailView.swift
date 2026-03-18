@@ -17,10 +17,15 @@ struct UserDetailView: View {
                 VStack(spacing: 12) {
                     HStack {
                         Spacer()
-                        AsyncImage(url: user.pictureURL)
+                        AsyncImage(url: user.pictureURL) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            Image("userPlaceholder")
+                        }
                         .frame(width: 120, height: 120)
                         .clipShape(.circle)
-                        .scaledToFill()
                         Spacer()
                     }
                     .listRowBackground(Color.clear)
