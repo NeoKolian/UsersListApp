@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
-import CoreData
 
 @main
 struct UsersListApp: App {
+    
+//    @State private var repository = DefaultUserRepository()
+    
+    // in case if API randomUsers dosent work
+    @State private var repository = DefaultUserRepository(
+        networkClient: StubUserNetworkClient()
+    )
+
     var body: some Scene {
         WindowGroup {
             UserListView(
                 viewModel: UserListViewModel(
-                    fetchUseCase: FetchUsersUseCase(
-                        repository: DefaultUserRepository()
-                    )
+                    fetchUseCase: FetchUsersUseCase(repository: repository),
+                    repository: repository
                 )
             )
         }

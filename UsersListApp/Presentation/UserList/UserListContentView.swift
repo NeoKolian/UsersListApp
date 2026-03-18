@@ -9,8 +9,11 @@ import SwiftUI
 
 struct UserListContentView: View {
     let state: UserListViewModel.ViewState
+    let filteredUsers: [User]
     let isLoadingMore: Bool
     let onUserAppear: (User) -> Void
+    let onDelete: (User) -> Void
+    let onRetry: () -> Void
 
     var body: some View {
         switch state {
@@ -23,27 +26,39 @@ struct UserListContentView: View {
         case .loading:
             ProgressView("Loading...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case .loaded(let users):
-            List {
-                ForEach(users) { user in
-                    NavigationLink(value: user) {
-                        UserListRowView(user: user)
+        case .loaded:
+            if filteredUsers.isEmpty {
+                ContentUnavailableView.search
+            } else {
+                List {
+                    ForEach(filteredUsers) { user in
+                        NavigationLink(value: user) {
+                            UserListRowView(user: user)
+                        }
+                        .onAppear { onUserAppear(user) }
                     }
-                    .onAppear { onUserAppear(user) }
+                    .onDelete { offsets in
+                        for index in offsets {
+                            onDelete(filteredUsers[index])
+                        }
+                    }
+                    if isLoadingMore {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .listRowSeparator(.hidden)
+                    }
                 }
-                if isLoadingMore {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .listRowSeparator(.hidden)
-                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
         case .error(let message):
-            ContentUnavailableView(
-                "Something went wrong",
-                systemImage: "exclamationmark.triangle",
-                description: Text(message)
-            )
+            ContentUnavailableView {
+                Label("Something went wrong", systemImage: "exclamationmark.triangle")
+            } description: {
+                Text(message)
+            } actions: {
+                Button("Retry", action: onRetry)
+                    .buttonStyle(.borderedProminent)
+            }
         }
     }
 }

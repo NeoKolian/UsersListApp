@@ -16,6 +16,6 @@ final class FetchUsersUseCase {
 
     func execute(page: Int) async throws -> [User] {
         let fetched = try await repository.fetchUsers(page: page)
-        return fetched.filter { !repository.isDeleted(id: $0.id) }
+        return fetched.filter { !repository.isDeleted(email: $0.email) }
     }
 }
