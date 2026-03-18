@@ -10,7 +10,7 @@ import Foundation
 
 final class MockUserStorage: UserStorageProtocol {
     private var users: [User] = []
-    private var deletedIDs: Set<String> = []
+    private var deletedEmails: Set<String> = []
 
     func loadUsers() -> [User] { users }
 
@@ -18,9 +18,9 @@ final class MockUserStorage: UserStorageProtocol {
         self.users = users
     }
 
-    func loadDeletedIDs() -> Set<String> { deletedIDs }
+    func loadDeletedEmails() -> Set<String> { deletedEmails }
 
-    func saveDeletedIDs(_ ids: Set<String>) {
-        self.deletedIDs = ids
+    func saveDeletedEmails(_ emails: Set<String>) {
+        self.deletedEmails = emails
     }
 }

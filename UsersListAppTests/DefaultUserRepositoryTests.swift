@@ -64,6 +64,54 @@ final class DefaultUserRepositoryTests: XCTestCase {
         XCTAssertEqual(result.count, 3)
     }
 
+    // MARK: - Delete & Re-fetch
+
+    func testDeleteUser_MarksEmailAsDeleted() async throws {
+        let dtos = [
+            UserDTO.make(email: "john@test.com"),
+            UserDTO.make(email: "nick@test.com")
+        ]
+        let sut = makeSUT(dtos: dtos)
+
+        let firstFetch = try await sut.fetchUsers(page: 1)
+        XCTAssertEqual(firstFetch.count, 2)
+
+        sut.deleteUser(email: "john@test.com")
+
+        XCTAssertTrue(sut.isDeleted(email: "john@test.com"))
+        XCTAssertFalse(sut.isDeleted(email: "nick@test.com"))
+    }
+
+    func testFetchUsers_Page1_ResetsCacheForFreshLoad() async throws {
+        let dtos = [
+            UserDTO.make(email: "john@test.com"),
+            UserDTO.make(email: "nick@test.com")
+        ]
+        let sut = makeSUT(dtos: dtos)
+
+        let firstFetch = try await sut.fetchUsers(page: 1)
+        XCTAssertEqual(firstFetch.count, 2)
+
+        // Second page-1 fetch resets cache and returns all users again
+        let secondFetch = try await sut.fetchUsers(page: 1)
+        XCTAssertEqual(secondFetch.count, 2)
+    }
+
+    func testDeleteUser_RemovesFromSavedUsers() async throws {
+        let dtos = [
+            UserDTO.make(email: "john@test.com"),
+            UserDTO.make(email: "nick@test.com")
+        ]
+        let sut = makeSUT(dtos: dtos)
+
+        let fetched = try await sut.fetchUsers(page: 1)
+        sut.deleteUser(email: fetched.first!.email)
+
+        let saved = sut.getSavedUsers()
+        XCTAssertEqual(saved.count, 1)
+        XCTAssertEqual(saved.first?.email, "nick@test.com")
+    }
+
     // MARK: - Cached Users
 
     func testGetSavedUsers_ReturnsCachedUsersWithoutDuplicates() async throws {

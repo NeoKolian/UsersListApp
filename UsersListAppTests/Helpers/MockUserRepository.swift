@@ -10,15 +10,15 @@ import Foundation
 
 final class MockUserRepository: UserRepositoryProtocol {
     private let fetchResult: Result<[User], Error>
-    private(set) var deletedIDs: Set<String>
+    private(set) var deletedEmails: Set<String>
     private(set) var fetchedPage: Int?
 
     init(
         fetchResult: Result<[User], Error> = .success([]),
-        deletedIDs: Set<String> = []
+        deletedEmails: Set<String> = []
     ) {
         self.fetchResult = fetchResult
-        self.deletedIDs = deletedIDs
+        self.deletedEmails = deletedEmails
     }
 
     func fetchUsers(page: Int) async throws -> [User] {
@@ -28,11 +28,11 @@ final class MockUserRepository: UserRepositoryProtocol {
 
     func getSavedUsers() -> [User] { [] }
 
-    func deleteUser(id: String) {
-        deletedIDs.insert(id)
+    func deleteUser(email: String) {
+        deletedEmails.insert(email)
     }
 
-    func isDeleted(id: String) -> Bool {
-        deletedIDs.contains(id)
+    func isDeleted(email: String) -> Bool {
+        deletedEmails.contains(email)
     }
 }

@@ -179,7 +179,7 @@ final class UserListViewModelTests: XCTestCase {
         await sut.loadInitialUsers()
         sut.deleteUser(users[0])
 
-        XCTAssertTrue(repository.deletedIDs.contains(users[0].id))
+        XCTAssertTrue(repository.deletedEmails.contains(users[0].email))
     }
 
     func testDeleteUser_WhenAllDeleted_SetsEmptyState() async {
@@ -274,7 +274,7 @@ private final class PagedMockRepository: UserRepositoryProtocol {
     private let pages: [Int: [User]]
     private let errorOnPage: Int?
     private(set) var lastRequestedPage: Int?
-    private(set) var deletedIDs: Set<String> = []
+    private(set) var deletedEmails: Set<String> = []
 
     init(pages: [Int: [User]], errorOnPage: Int? = nil) {
         self.pages = pages
@@ -291,11 +291,11 @@ private final class PagedMockRepository: UserRepositoryProtocol {
 
     func getSavedUsers() -> [User] { [] }
 
-    func deleteUser(id: String) {
-        deletedIDs.insert(id)
+    func deleteUser(email: String) {
+        deletedEmails.insert(email)
     }
 
-    func isDeleted(id: String) -> Bool {
-        deletedIDs.contains(id)
+    func isDeleted(email: String) -> Bool {
+        deletedEmails.contains(email)
     }
 }

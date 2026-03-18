@@ -30,19 +30,19 @@ final class FetchUsersUseCaseTests: XCTestCase {
 
     func testExecute_FiltersDeletedUsers() async throws {
         let users = User.makeList(count: 3)
-        let deletedIDs: Set<String> = [users[1].id]
-        let sut = makeSUT(fetchResult: .success(users), deletedIDs: deletedIDs)
+        let deletedEmails: Set<String> = [users[1].email]
+        let sut = makeSUT(fetchResult: .success(users), deletedEmails: deletedEmails)
 
         let result = try await sut.execute(page: 1)
 
         XCTAssertEqual(result.count, 2)
-        XCTAssertFalse(result.contains { $0.id == users[1].id })
+        XCTAssertFalse(result.contains { $0.email == users[1].email })
     }
 
     func testExecute_WhenAllDeleted_ReturnsEmptyArray() async throws {
         let users = User.makeList(count: 2)
-        let deletedIDs = Set(users.map(\.id))
-        let sut = makeSUT(fetchResult: .success(users), deletedIDs: deletedIDs)
+        let deletedEmails = Set(users.map(\.email))
+        let sut = makeSUT(fetchResult: .success(users), deletedEmails: deletedEmails)
 
         let result = try await sut.execute(page: 1)
 
@@ -82,13 +82,13 @@ final class FetchUsersUseCaseTests: XCTestCase {
 
     private func makeSUT(
         fetchResult: Result<[User], Error> = .success([]),
-        deletedIDs: Set<String> = [],
+        deletedEmails: Set<String> = [],
         file: StaticString = #file,
         line: UInt = #line
     ) -> FetchUsersUseCase {
         let repository = MockUserRepository(
             fetchResult: fetchResult,
-            deletedIDs: deletedIDs
+            deletedEmails: deletedEmails
         )
         
         return FetchUsersUseCase(repository: repository)
@@ -116,15 +116,15 @@ final class FetchUsersUseCaseTests: XCTestCase {
 
     private final class MockUserRepository: UserRepositoryProtocol {
         private let fetchResult: Result<[User], Error>
-        private let deletedIDs: Set<String>
+        private let deletedEmails: Set<String>
         private(set) var fetchedPage: Int?
 
         init(
             fetchResult: Result<[User], Error> = .success([]),
-            deletedIDs: Set<String> = []
+            deletedEmails: Set<String> = []
         ) {
             self.fetchResult = fetchResult
-            self.deletedIDs = deletedIDs
+            self.deletedEmails = deletedEmails
         }
 
         func fetchUsers(page: Int) async throws -> [User] {
@@ -133,10 +133,10 @@ final class FetchUsersUseCaseTests: XCTestCase {
         }
 
         func getSavedUsers() -> [User] { [] }
-        func deleteUser(id: String) {}
+        func deleteUser(email: String) {}
 
-        func isDeleted(id: String) -> Bool {
-            deletedIDs.contains(id)
+        func isDeleted(email: String) -> Bool {
+            deletedEmails.contains(email)
         }
     }
 }
