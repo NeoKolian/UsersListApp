@@ -58,7 +58,7 @@ final class UserListViewModel {
     func refreshUsers() async {
         await fetchFirstPage()
     }
-
+    
     private func fetchFirstPage() async {
         state = .loading
         currentPage = 1
@@ -68,7 +68,13 @@ final class UserListViewModel {
             allUsers = users
             state = users.isEmpty ? .empty : .loaded
         } catch {
-            state = .error(error.localizedDescription)
+            let cached = repository.getSavedUsers()
+            if cached.isEmpty {
+                state = .error(error.localizedDescription)
+            } else {
+                allUsers = cached
+                state = .loaded
+            }
         }
     }
 

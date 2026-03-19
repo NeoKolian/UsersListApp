@@ -18,10 +18,12 @@ struct UserListRowView: View {
                     .scaledToFill()
             } placeholder: {
                 Image("userPlaceholder")
+                    .resizable()
+                    .scaledToFill()
             }
-            .frame(width: 50, height: 50)
             .clipShape(.circle)
-
+            .frame(width: 50, height: 50)
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(user.fullName)
                     .font(.headline)

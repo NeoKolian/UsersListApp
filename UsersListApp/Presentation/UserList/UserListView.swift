@@ -46,6 +46,7 @@ private final class LoadedPreviewRepository: UserRepositoryProtocol {
     func getSavedUsers() -> [User] { User.sampleList }
     func deleteUser(email: String) {}
     func isDeleted(email: String) -> Bool { false }
+    func loadStorageUsers() -> [User] { User.sampleList }
 }
 
 #Preview("Loaded") {
