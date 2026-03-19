@@ -13,7 +13,7 @@ struct User: Identifiable, Hashable, Codable {
     let lastName: String
     let email: String
     let phone: String
-    let pictureURL: URL
+    let pictureURL: URL?
     let gender: String
     let street: String
     let city: String

@@ -79,7 +79,7 @@ final class DefaultUserRepository: UserRepositoryProtocol {
         }
 
         let dtos = try await networkClient.fetchUsers(page: page, count: pageSize)
-        let users = dtos.compactMap(UserMapper.map)
+        let users = dtos.map(UserMapper.map)
 
         let newUsers = users.filter { knownEmails.insert($0.email).inserted }
         cachedUsers.append(contentsOf: newUsers)
