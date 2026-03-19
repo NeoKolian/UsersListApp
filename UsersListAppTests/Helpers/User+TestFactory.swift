@@ -17,7 +17,7 @@ extension User {
                 lastName: "Last\(i)",
                 email: "user\(i)@test.com",
                 phone: "000-\(i)",
-                pictureURL: URL(string: "https://example.com/\(i).jpg") ?? URL(fileURLWithPath: ""),
+                pictureURL: URL(string: "https://example.com/\(i).jpg"),
                 gender: "male",
                 street: "\(i) Test St",
                 city: "City",

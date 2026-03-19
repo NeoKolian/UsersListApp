@@ -8,9 +8,9 @@
 import Foundation
 
 struct UserMapper {
-    static func map(_ dto: UserDTO) -> User? {
-        guard let pictureURL = URL(string: dto.picture.large) else { return nil }
-
+    static func map(_ dto: UserDTO) -> User {
+        
+        let pictureURL = URL(string: dto.picture.large)
         let date = ISO8601DateFormatter.date(from: dto.registered.date)
         
         return User(
