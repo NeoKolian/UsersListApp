@@ -12,20 +12,20 @@ final class UserMapperTests: XCTestCase {
 
     // MARK: - Invalid Picture URL
 
-    func testMapInvalidPictureURL_ReturnsNil() {
+    func testMapInvalidPictureURL_SetsPictureURLToNil() {
         let dto = makeValidDTO(pictureURL: "")
 
         let user = UserMapper.map(dto)
 
-        XCTAssertNil(user)
+        XCTAssertNil(user.pictureURL)
     }
 
-    func testMapMalformedPictureURL_ReturnsNil() {
+    func testMapMalformedPictureURL_SetsPictureURLToNil() {
         let dto = makeValidDTO(pictureURL: "ht tp://invalid url")
 
         let user = UserMapper.map(dto)
 
-        XCTAssertNil(user)
+        XCTAssertNil(user.pictureURL)
     }
 
     // MARK: - Date Parsing
@@ -36,7 +36,7 @@ final class UserMapperTests: XCTestCase {
         let user = UserMapper.map(dto)
 
         let expected = ISO8601DateFormatter.api.date(from: "2020-06-15T10:30:00.000Z")
-        XCTAssertEqual(user?.registeredDate, expected)
+        XCTAssertEqual(user.registeredDate, expected)
     }
 
     func testMapInvalidDate_UsesFallback() {
@@ -46,30 +46,19 @@ final class UserMapperTests: XCTestCase {
         let user = UserMapper.map(dto)
         let after = Date.now
 
-        XCTAssertNotNil(user)
-        if let date = user?.registeredDate {
-            XCTAssertGreaterThanOrEqual(date, before)
-            XCTAssertLessThanOrEqual(date, after)
-        }
+        XCTAssertGreaterThanOrEqual(user.registeredDate, before)
+        XCTAssertLessThanOrEqual(user.registeredDate, after)
     }
 
     // MARK: - Valid DTO mapping
-
-    func testMapValidDTO_ReturnsUser() {
-        let dto = makeValidDTO()
-
-        let user = UserMapper.map(dto)
-
-        XCTAssertNotNil(user)
-    }
 
     func testMapValidDTO_MapsNameCorrectly() {
         let dto = makeValidDTO(firstName: "Maria", lastName: "Garcia")
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.firstName, "Maria")
-        XCTAssertEqual(user?.lastName, "Garcia")
+        XCTAssertEqual(user.firstName, "Maria")
+        XCTAssertEqual(user.lastName, "Garcia")
     }
 
     func testMapValidDTO_GeneratesUUIDAsID() {
@@ -77,8 +66,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertNotNil(user?.id)
-        XCTAssertNotNil(UUID(uuidString: user?.id ?? ""))
+        XCTAssertNotNil(UUID(uuidString: user.id))
     }
 
     func testMapValidDTO_GeneratesUniqueIDs() {
@@ -87,7 +75,7 @@ final class UserMapperTests: XCTestCase {
         let user1 = UserMapper.map(dto)
         let user2 = UserMapper.map(dto)
 
-        XCTAssertNotEqual(user1?.id, user2?.id)
+        XCTAssertNotEqual(user1.id, user2.id)
     }
 
     func testMapValidDTO_MapsEmailCorrectly() {
@@ -95,7 +83,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.email, "test@mail.com")
+        XCTAssertEqual(user.email, "test@mail.com")
     }
 
     func testMapValidDTO_MapsPhoneCorrectly() {
@@ -103,7 +91,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.phone, "0161 818 9583")
+        XCTAssertEqual(user.phone, "0161 818 9583")
     }
 
     func testMapValidDTO_MapsGenderCorrectly() {
@@ -111,7 +99,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.gender, "female")
+        XCTAssertEqual(user.gender, "female")
     }
 
     func testMapValidDTO_MapsPictureURL() {
@@ -119,7 +107,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.pictureURL.absoluteString, "https://example.com/avatar.jpg")
+        XCTAssertEqual(user.pictureURL?.absoluteString, "https://example.com/avatar.jpg")
     }
 
     func testMapValidDTO_MapsStreetCorrectly() {
@@ -127,7 +115,7 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.street, "221 Baker St")
+        XCTAssertEqual(user.street, "221 Baker St")
     }
 
     func testMapValidDTO_MapsCityAndState() {
@@ -135,8 +123,8 @@ final class UserMapperTests: XCTestCase {
 
         let user = UserMapper.map(dto)
 
-        XCTAssertEqual(user?.city, "Manchester")
-        XCTAssertEqual(user?.state, "Greater Manchester")
+        XCTAssertEqual(user.city, "Manchester")
+        XCTAssertEqual(user.state, "Greater Manchester")
     }
 
     // MARK: - Helpers

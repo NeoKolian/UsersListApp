@@ -94,49 +94,4 @@ final class FetchUsersUseCaseTests: XCTestCase {
         return FetchUsersUseCase(repository: repository)
     }
 
-    private func makeUsers(count: Int) -> [User] {
-        (0..<count).map { i in
-            User(
-                id: UUID().uuidString,
-                firstName: "First\(i)",
-                lastName: "Last\(i)",
-                email: "user\(i)@test.com",
-                phone: "000-\(i)",
-                pictureURL: URL(string: "https://example.com/\(i).jpg") ?? URL(fileURLWithPath: ""),
-                gender: "male",
-                street: "\(i) Test St",
-                city: "City",
-                state: "State",
-                registeredDate: .now
-            )
-        }
-    }
-
-    // MARK: - Mock
-
-    private final class MockUserRepository: UserRepositoryProtocol {
-        private let fetchResult: Result<[User], Error>
-        private let deletedEmails: Set<String>
-        private(set) var fetchedPage: Int?
-
-        init(
-            fetchResult: Result<[User], Error> = .success([]),
-            deletedEmails: Set<String> = []
-        ) {
-            self.fetchResult = fetchResult
-            self.deletedEmails = deletedEmails
-        }
-
-        func fetchUsers(page: Int) async throws -> [User] {
-            fetchedPage = page
-            return try fetchResult.get()
-        }
-
-        func getSavedUsers() -> [User] { [] }
-        func deleteUser(email: String) {}
-
-        func isDeleted(email: String) -> Bool {
-            deletedEmails.contains(email)
-        }
-    }
 }
